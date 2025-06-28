@@ -54,6 +54,7 @@ export function HeroSection() {
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
             I build real-world web & desktop applications using{" "}
             <span className="text-primary font-semibold">Laravel</span>,{" "}
+            <span className="text-primary font-semibold">Next JS</span>,{" "}
             <span className="text-primary font-semibold">Go</span>, and modern web tools.
           </p>
         </div>
