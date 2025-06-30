@@ -84,7 +84,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/resume.pdf"
+                  href="/MyCV.pdf"
                   className="text-muted-foreground hover:text-primary transition-colors"
                   target="_blank"
                   rel="noopener noreferrer"

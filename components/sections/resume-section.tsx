@@ -27,7 +27,7 @@ export function ResumeSection() {
               size="lg"
               className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700"
             >
-              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">
+              <a href="/MyCV.pdf" target="_blank" rel="noopener noreferrer">
                 <Download className="mr-2 h-5 w-5" />
                 Download PDF Resume
               </a>
