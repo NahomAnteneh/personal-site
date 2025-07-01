@@ -3,25 +3,22 @@
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { ArrowDown, Download, Mail, ExternalLink, Github, Linkedin } from "lucide-react"
-
-const roles = ["Full-Stack Developer", "Laravel Expert", "Go Developer", "CS Graduate", "Problem Solver"]
+import { name, roles, socialLinks } from "@/lib/personal-data"
 
 export function HeroSection() {
   const [currentRole, setCurrentRole] = useState(0)
+  const [isRoleVisible, setIsRoleVisible] = useState(true)
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentRole((prev) => (prev + 1) % roles.length)
+      setIsRoleVisible(false)
+      setTimeout(() => {
+        setCurrentRole((prev) => (prev + 1) % roles.length)
+        setIsRoleVisible(true)
+      }, 500) // Fade-out duration
     }, 3000)
     return () => clearInterval(interval)
   }, [])
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
-    }
-  }
 
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
@@ -43,12 +40,18 @@ export function HeroSection() {
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
             Hi, I'm{" "}
             <span className="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 bg-clip-text text-transparent">
-              Nahom Anteneh
+              {name}
             </span>
           </h1>
 
           <div className="h-16 flex items-center justify-center">
-            <h2 className="text-2xl md:text-3xl text-muted-foreground font-medium">{roles[currentRole]}</h2>
+            <h2
+              className={`text-2xl md:text-3xl text-muted-foreground font-medium transition-opacity duration-500 ${
+                isRoleVisible ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              {roles[currentRole]}
+            </h2>
           </div>
 
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
@@ -62,32 +65,37 @@ export function HeroSection() {
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
           <Button
-            onClick={() => scrollToSection("projects")}
+            asChild
             size="lg"
             className="modern-card bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700"
           >
-            <ExternalLink className="mr-2 h-5 w-5" />
-            View Projects
+            <a href="#projects">
+              <ExternalLink className="mr-2 h-5 w-5" />
+              View Projects
+            </a>
           </Button>
-          <Button onClick={() => scrollToSection("resume")} variant="outline" size="lg" className="modern-card">
-            <Download className="mr-2 h-5 w-5" />
-            Download Resume
+          <Button asChild variant="outline" size="lg" className="modern-card">
+            <a href="#resume">
+              <Download className="mr-2 h-5 w-5" />
+              Download Resume
+            </a>
           </Button>
           <Button
-            onClick={() => scrollToSection("contact")}
-            variant="secondary"
+            asChild
             size="lg"
             className="modern-card bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white"
           >
-            <Mail className="mr-2 h-5 w-5" />
-            Hire Me
+            <a href="#contact">
+              <Mail className="mr-2 h-5 w-5" />
+              Hire Me
+            </a>
           </Button>
         </div>
 
         {/* Social Links */}
         <div className="flex justify-center space-x-6 mb-12">
           <a
-            href="https://github.com/NahomAnteneh"
+            href={socialLinks.github}
             className="p-3 rounded-full glass hover:bg-primary hover:text-primary-foreground transition-all duration-300 modern-card"
             target="_blank"
             rel="noopener noreferrer"
@@ -95,7 +103,7 @@ export function HeroSection() {
             <Github className="h-6 w-6" />
           </a>
           <a
-            href="https://linkedin.com/in/nah0m"
+            href={socialLinks.linkedin}
             className="p-3 rounded-full glass hover:bg-primary hover:text-primary-foreground transition-all duration-300 modern-card"
             target="_blank"
             rel="noopener noreferrer"
@@ -103,7 +111,7 @@ export function HeroSection() {
             <Linkedin className="h-6 w-6" />
           </a>
           <a
-            href="mailto:nahom.anteneh.ti@gmail.com"
+            href={socialLinks.email}
             className="p-3 rounded-full glass hover:bg-primary hover:text-primary-foreground transition-all duration-300 modern-card"
           >
             <Mail className="h-6 w-6" />
@@ -112,9 +120,9 @@ export function HeroSection() {
 
         {/* Scroll Indicator */}
         <div className="animate-bounce">
-          <button onClick={() => scrollToSection("about")}>
+          <a href="#about">
             <ArrowDown className="h-8 w-8 text-muted-foreground mx-auto" />
-          </button>
+          </a>
         </div>
       </div>
     </section>

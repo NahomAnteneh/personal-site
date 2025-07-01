@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { useScrollSpy } from "@/hooks/use-scroll-spy"
 
 const navigation = [
   { name: "Home", href: "home" },
@@ -16,9 +17,10 @@ const navigation = [
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
-  const [activeSection, setActiveSection] = useState("home")
   const [scrollProgress, setScrollProgress] = useState(0)
   const pathname = usePathname()
+  const sectionIds = navigation.map((item) => item.href)
+  const activeSection = useScrollSpy(sectionIds, 100) // Offset for better accuracy
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,24 +28,8 @@ export function Navigation() {
       const docHeight = document.documentElement.scrollHeight - window.innerHeight
       const progress = (scrollTop / docHeight) * 100
       setScrollProgress(progress)
-
-      // Update active section based on scroll position
-      const sections = navigation.map((item) => item.href)
-      const currentSection = sections.find((section) => {
-        const element = document.getElementById(section)
-        if (element) {
-          const rect = element.getBoundingClientRect()
-          return rect.top <= 100 && rect.bottom >= 100
-        }
-        return false
-      })
-
-      if (currentSection) {
-        setActiveSection(currentSection)
-      }
     }
 
-    // Only add scroll listener on homepage
     if (pathname === "/") {
       window.addEventListener("scroll", handleScroll)
       return () => window.removeEventListener("scroll", handleScroll)
@@ -51,13 +37,9 @@ export function Navigation() {
   }, [pathname])
 
   const handleNavClick = (href: string) => {
-    if (href === "home") {
-      window.scrollTo({ top: 0, behavior: "smooth" })
-    } else {
-      const element = document.getElementById(href)
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" })
-      }
+    const element = document.getElementById(href)
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" })
     }
     setIsOpen(false)
   }
@@ -66,7 +48,6 @@ export function Navigation() {
 
   return (
     <>
-      {/* Scroll Progress Indicator */}
       {isHomePage && <div className="scroll-indicator" style={{ transform: `scaleX(${scrollProgress / 100})` }} />}
 
       <nav className="fixed top-0 w-full z-50 glass backdrop-blur-md border-b border-border/50">
@@ -79,7 +60,6 @@ export function Navigation() {
               Nahom Anteneh
             </button>
 
-            {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-1">
               {navigation.map((item) => {
                 const isActive = isHomePage && activeSection === item.href
@@ -103,7 +83,6 @@ export function Navigation() {
               </div>
             </div>
 
-            {/* Mobile Navigation Button */}
             <div className="md:hidden flex items-center space-x-3">
               <ThemeToggle />
               <Button variant="ghost" size="icon" onClick={() => setIsOpen(!isOpen)} className="w-9 h-9">
@@ -112,7 +91,6 @@ export function Navigation() {
             </div>
           </div>
 
-          {/* Mobile Navigation Menu */}
           {isOpen && (
             <div className="md:hidden glass backdrop-blur-md rounded-lg m-4 p-4 border border-border/50 shadow-lg">
               <div className="space-y-2">

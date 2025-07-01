@@ -5,15 +5,10 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Code, Heart, Globe, Lightbulb, Target, Users, ArrowRight, Download } from "lucide-react"
 import Image from "next/image"
+import { skills } from "@/lib/skills-data"
+import nahomImage from "@/public/nahom.png"
 
 export function AboutSection() {
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
-    }
-  }
-
   return (
     <section id="about" className="py-20 px-4 bg-muted/30">
       <div className="max-w-6xl mx-auto">
@@ -41,7 +36,7 @@ export function AboutSection() {
                       {/* Main photo container */}
                       <div className="relative w-64 h-80 rounded-2xl overflow-hidden border-4 border-white dark:border-gray-800 shadow-2xl">
                         <Image
-                          src="nahom.png"
+                          src={nahomImage}
                           alt="Nahom Anteneh - Full Stack Developer"
                           fill
                           className="object-cover"
@@ -89,12 +84,16 @@ export function AboutSection() {
                       </p>
                     </div>
                     <div className="mt-8 flex gap-4">
-                      <Button onClick={() => scrollToSection("resume")}>
-                        <Download className="mr-2 h-4 w-4" />
-                        View Resume
+                      <Button asChild>
+                        <a href="#resume">
+                          <Download className="mr-2 h-4 w-4" />
+                          View Resume
+                        </a>
                       </Button>
-                      <Button variant="outline" onClick={() => scrollToSection("projects")}>
-                        View Projects
+                      <Button asChild variant="outline">
+                        <a href="#projects">
+                          View Projects
+                        </a>
                       </Button>
                     </div>
                   </div>
@@ -272,7 +271,7 @@ export function AboutSection() {
                   Backend
                 </h4>
                 <div className="flex flex-wrap justify-center gap-2">
-                  {["Laravel", "PHP", "Go", "MySQL"].map((skill) => (
+                  {skills.backend.map((skill) => (
                     <Badge key={skill} variant="secondary" className="modern-card">
                       {skill}
                     </Badge>
@@ -286,7 +285,7 @@ export function AboutSection() {
                   Frontend
                 </h4>
                 <div className="flex flex-wrap justify-center gap-2">
-                  {["Vue.js", "React", "Next.js", "Tailwind"].map((skill) => (
+                  {skills.frontend.map((skill) => (
                     <Badge key={skill} variant="secondary" className="modern-card">
                       {skill}
                     </Badge>
@@ -300,7 +299,7 @@ export function AboutSection() {
                   Tools
                 </h4>
                 <div className="flex flex-wrap justify-center gap-2">
-                  {["Git", "Docker", "Linux", "AWS"].map((skill) => (
+                  {skills.tools.map((skill) => (
                     <Badge key={skill} variant="secondary" className="modern-card">
                       {skill}
                     </Badge>
@@ -314,7 +313,7 @@ export function AboutSection() {
                   Learning
                 </h4>
                 <div className="flex flex-wrap justify-center gap-2">
-                  {["Rust", "AI/ML", "Blockchain", "Mobile"].map((skill) => (
+                  {skills.learning.map((skill) => (
                     <Badge key={skill} variant="outline" className="modern-card">
                       {skill}
                     </Badge>
@@ -325,12 +324,14 @@ export function AboutSection() {
 
             <div className="text-center">
               <Button
-                onClick={() => scrollToSection("contact")}
+                asChild
                 size="lg"
                 className="bg-gradient-to-r from-emerald-500 to-teal-600"
               >
-                Let's Work Together
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <a href="#contact">
+                  Let's Work Together
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </a>
               </Button>
             </div>
           </CardContent>

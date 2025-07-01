@@ -3,15 +3,9 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Download, Calendar, MapPin, Award, Briefcase, GraduationCap, ArrowRight, Mail } from "lucide-react"
+import { experience, education, awards } from "@/lib/resume-data"
 
 export function ResumeSection() {
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
-    }
-  }
-
   return (
     <section id="resume" className="py-20 px-4 bg-muted/30">
       <div className="max-w-6xl mx-auto">
@@ -32,9 +26,11 @@ export function ResumeSection() {
                 Download PDF Resume
               </a>
             </Button>
-            <Button variant="outline" size="lg" onClick={() => scrollToSection("contact")}>
-              <Mail className="mr-2 h-5 w-5" />
-              Contact Me
+            <Button asChild variant="outline" size="lg">
+              <a href="#contact">
+                <Mail className="mr-2 h-5 w-5" />
+                Contact Me
+              </a>
             </Button>
           </div>
         </div>
@@ -51,44 +47,30 @@ export function ResumeSection() {
                   <h3 className="text-2xl font-bold">Experience</h3>
                 </div>
 
-                <div className="relative pl-8 border-l-2 border-green-200 dark:border-green-800">
-                    <div className="absolute -left-2 top-0 w-4 h-4 rounded-full bg-green-500"></div>
-                    <h4 className="text-lg font-bold">Freelance Developer</h4>
-                    <p className="text-primary font-semibold">Self-Employed</p>
-                    <div className="flex items-center text-sm text-muted-foreground mb-3">
-                      <Calendar className="h-4 w-4 mr-1" />
-                      <span>2024 - Present</span>
+                <div className="space-y-8">
+                  {experience.map((item, index) => (
+                    <div key={index} className="relative pl-8 border-l-2 border-green-200 dark:border-green-800">
+                      <div className="absolute -left-2 top-0 w-4 h-4 rounded-full bg-green-500"></div>
+                      <h4 className="text-lg font-bold">{item.title}</h4>
+                      <p className="text-primary font-semibold">{item.company}</p>
+                      <div className="flex items-center text-sm text-muted-foreground mb-3">
+                        <Calendar className="h-4 w-4 mr-1" />
+                        <span>{item.date}</span>
+                      </div>
+                      <ul className="text-muted-foreground space-y-1">
+                        {item.description.map((point, i) => (
+                          <li key={i}>• {point}</li>
+                        ))}
+                      </ul>
                     </div>
-                    <ul className="text-muted-foreground space-y-1">
-                      <li>• Built custom web applications for local businesses</li>
-                      <li>• Developed desktop applications for healthcare sector</li>
-                      <li>• Provided technical consulting and system architecture</li>
-                    </ul>
-                  </div>
+                  ))}
+                </div>
 
-                {/* <div className="space-y-8">
-                  <div className="relative pl-8 border-l-2 border-blue-200 dark:border-blue-800">
-                    <div className="absolute -left-2 top-0 w-4 h-4 rounded-full bg-blue-500"></div>
-                    <h4 className="text-lg font-bold">Software Development Intern</h4>
-                    <p className="text-primary font-semibold">Awash Bank</p>
-                    <div className="flex items-center text-sm text-muted-foreground mb-3">
-                      <Calendar className="h-4 w-4 mr-1" />
-                      <span className="mr-4">2024</span>
-                      <MapPin className="h-4 w-4 mr-1" />
-                      <span>Addis Ababa, Ethiopia</span>
-                    </div>
-                    <ul className="text-muted-foreground space-y-1">
-                      <li>• Developed internal banking systems using modern web technologies</li>
-                      <li>• Collaborated with senior developers on critical financial applications</li>
-                      <li>• Gained experience in enterprise software development practices</li>
-                      <li>• Worked with secure coding practices for financial systems</li>
-                    </ul>
-                  </div>
-                </div> */}
-
-                <Button variant="ghost" onClick={() => scrollToSection("projects")} className="mt-6 w-full">
-                  View My Projects
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                <Button asChild variant="ghost" className="mt-6 w-full">
+                  <a href="#projects">
+                    View My Projects
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </a>
                 </Button>
               </CardContent>
             </Card>
@@ -105,27 +87,30 @@ export function ResumeSection() {
                   <h3 className="text-2xl font-bold">Education</h3>
                 </div>
 
-                <div className="relative pl-8 border-l-2 border-purple-200 dark:border-purple-800">
-                  <div className="absolute -left-2 top-0 w-4 h-4 rounded-full bg-purple-500"></div>
-                  <h4 className="text-lg font-bold">Bachelor of Science in Computer Science</h4>
-                  <p className="text-primary font-semibold">Bahir Dar University</p>
-                  <div className="flex items-center text-sm text-muted-foreground mb-3">
-                    <Calendar className="h-4 w-4 mr-1" />
-                    <span className="mr-4">2021 - 2025</span>
-                    <MapPin className="h-4 w-4 mr-1" />
-                    <span>Bahir Dar, Ethiopia</span>
+                {education.map((item, index) => (
+                  <div key={index} className="relative pl-8 border-l-2 border-purple-200 dark:border-purple-800">
+                    <div className="absolute -left-2 top-0 w-4 h-4 rounded-full bg-purple-500"></div>
+                    <h4 className="text-lg font-bold">{item.degree}</h4>
+                    <p className="text-primary font-semibold">{item.institution}</p>
+                    <div className="flex items-center text-sm text-muted-foreground mb-3">
+                      <Calendar className="h-4 w-4 mr-1" />
+                      <span className="mr-4">{item.date}</span>
+                      <MapPin className="h-4 w-4 mr-1" />
+                      <span>{item.location}</span>
+                    </div>
+                    <ul className="text-muted-foreground space-y-1">
+                      {item.description.map((point, i) => (
+                        <li key={i}>• {point}</li>
+                      ))}
+                    </ul>
                   </div>
-                  <ul className="text-muted-foreground space-y-1">
-                    <li>• Strong foundation in software engineering, algorithms and Artificial Intelligene</li>
-                    <li>• Completed projects in web development and mobile applications</li>
-                    <li>• Studied system design, database management, and computer networks</li>
-                    <li>• Participated in coding competitions and hackathons</li>
-                  </ul>
-                </div>
+                ))}
 
-                <Button variant="ghost" onClick={() => scrollToSection("about")} className="mt-6 w-full">
-                  Learn More About Me
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                <Button asChild variant="ghost" className="mt-6 w-full">
+                  <a href="#about">
+                    Learn More About Me
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </a>
                 </Button>
               </CardContent>
             </Card>
@@ -140,13 +125,7 @@ export function ResumeSection() {
                 </div>
 
                 <div className="space-y-6">
-                  {[
-                    {
-                      title: "Hult Prize 2025 Finalist",
-                      description: "Global social entrepreneurship competition",
-                      color: "bg-yellow-500",
-                    },
-                  ].map((award, index) => (
+                  {awards.map((award, index) => (
                     <div key={index} className="flex items-center">
                       <div className={`w-3 h-3 rounded-full ${award.color} mr-4`}></div>
                       <div>
@@ -174,16 +153,20 @@ export function ResumeSection() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
-                onClick={() => scrollToSection("contact")}
+                asChild
                 size="lg"
                 className="bg-gradient-to-r from-emerald-500 to-teal-600"
               >
-                <Mail className="mr-2 h-5 w-5" />
-                Get In Touch
+                <a href="#contact">
+                  <Mail className="mr-2 h-5 w-5" />
+                  Get In Touch
+                </a>
               </Button>
-              <Button variant="outline" size="lg" onClick={() => scrollToSection("projects")}>
-                <ArrowRight className="mr-2 h-5 w-5" />
-                View My Work
+              <Button asChild variant="outline" size="lg">
+                <a href="#projects">
+                  <ArrowRight className="mr-2 h-5 w-5" />
+                  View My Work
+                </a>
               </Button>
             </div>
             <div className="mt-4 text-sm text-muted-foreground">

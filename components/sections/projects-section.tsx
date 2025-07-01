@@ -10,14 +10,6 @@ import { projects } from "@/lib/projects-data"
 
 export function ProjectsSection() {
   const featuredProjects = projects.filter((project) => project.featured)
-  const otherProjects = projects.filter((project) => !project.featured)
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
-    }
-  }
 
   return (
     <section id="projects" className="py-20 px-4">
@@ -46,7 +38,7 @@ export function ProjectsSection() {
                 <CardHeader className="p-0">
                   <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
                     <Image
-                      src={project.image || "/placeholder.svg"}
+                      src={project.image || "/placeholder.jpg"}
                       alt={project.title}
                       fill
                       className="object-cover transition-transform duration-300 hover:scale-110"
@@ -81,69 +73,12 @@ export function ProjectsSection() {
                         </Link>
                       </Button>
                     )}
-                    {/* {project.liveUrl && (
-                      <Button size="sm" asChild className="flex-1 bg-gradient-to-r from-emerald-500 to-teal-600">
-                        <Link href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                          <ExternalLink className="mr-2 h-4 w-4" />
-                          Live Demo
-                        </Link>
-                      </Button>
-                    )} */}
                   </div>
                 </CardContent>
               </Card>
             ))}
           </div>
         </div>
-
-        {/* Other Projects */}
-        {/* <div className="mb-16">
-          <h3 className="text-2xl font-bold mb-8">Other Projects</h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {otherProjects.map((project, index) => (
-              <Card
-                key={project.id}
-                className={`modern-card glass animate-fade-in-up`}
-                style={{ animationDelay: `${(index + 3) * 0.1}s` }}
-              >
-                <CardContent className="p-6">
-                  <h4 className="text-lg font-bold mb-2">{project.title}</h4>
-                  <p className="text-muted-foreground text-sm mb-4">{project.description}</p>
-
-                  <div className="flex flex-wrap gap-1 mb-4">
-                    {project.technologies.slice(0, 3).map((tech) => (
-                      <Badge key={tech} variant="outline" className="text-xs">
-                        {tech}
-                      </Badge>
-                    ))}
-                    {project.technologies.length > 3 && (
-                      <Badge variant="outline" className="text-xs">
-                        +{project.technologies.length - 3}
-                      </Badge>
-                    )}
-                  </div>
-
-                  <div className="flex gap-2">
-                    {project.githubUrl && (
-                      <Button variant="outline" size="sm" asChild>
-                        <Link href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                          <Github className="h-4 w-4" />
-                        </Link>
-                      </Button>
-                    )}
-                    {project.liveUrl && (
-                      <Button size="sm" asChild>
-                        <Link href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                          <ExternalLink className="h-4 w-4" />
-                        </Link>
-                      </Button>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div> */}
 
         {/* Call to Action */}
         <div className="text-center">
@@ -155,14 +90,18 @@ export function ProjectsSection() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button
-                  onClick={() => scrollToSection("contact")}
+                  asChild
                   className="bg-gradient-to-r from-emerald-500 to-teal-600"
                 >
-                  Start a Project
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <a href="#contact">
+                    Start a Project
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </a>
                 </Button>
-                <Button variant="outline" onClick={() => scrollToSection("resume")}>
-                  View Resume
+                <Button asChild variant="outline">
+                  <a href="#resume">
+                    View Resume
+                  </a>
                 </Button>
               </div>
             </CardContent>
