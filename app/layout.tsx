@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -63,6 +64,7 @@ export default function RootLayout({
       </head>
       <body className={`${inter.className} antialiased`}>
          <SpeedInsights/>
+        <Analytics />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
